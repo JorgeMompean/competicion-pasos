@@ -16,7 +16,7 @@ service cloud.firestore {
         request.resource.data.steps is int &&
         request.resource.data.steps >= 0 &&
         request.resource.data.steps <= 200000;
-      allow delete: if false;
+      allow delete: if true;
     }
   }
 }

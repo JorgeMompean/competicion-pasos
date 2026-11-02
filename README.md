@@ -117,6 +117,9 @@ mantiene el `index.html` original.
 - Perfil inicial entre Jorge, Gema, José, Rosalia, Manuel Andrés, Jose Antonio y Pablo.
 - Registro de pasos por persona y fecha.
 - Una única entrada diaria por persona, con edición desde el historial.
+- Borrado de entradas desde el historial, con confirmación.
+- El ranking solo muestra personas con actividad en el periodo elegido; el resto aparece en “Sin actividad”.
+- Contador de entradas registradas por persona dentro del ranking.
 - Modal reutilizable para añadir y corregir datos.
 - Ranking diario, semanal e histórico.
 - Distancia aproximada en kilómetros (750 metros por cada 1.000 pasos).

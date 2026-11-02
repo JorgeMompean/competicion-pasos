@@ -5,7 +5,8 @@ import {
   getFirestore,
   onSnapshot,
   serverTimestamp,
-  setDoc
+  setDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
@@ -89,17 +90,26 @@ function renderPersonalStats() {
 
 function renderRanking() {
   const start = periodStart(activePeriod);
-  const scores = PEOPLE.map((name) => ({ name, steps: sumFor(name, start) }))
+  const scores = PEOPLE.map((name) => ({
+    name,
+    steps: sumFor(name, start),
+    entries: stepsData.filter((entry) => entry.person === name && entry.date >= start && entry.date <= todayKey).length
+  })).filter((score) => score.entries > 0)
     .sort((a, b) => b.steps - a.steps);
-  const max = Math.max(scores[0].steps, 1);
-  document.querySelector("#ranking-list").innerHTML = scores.map(({ name, steps }, index) =>
-    `<div class="ranking-row rank-${index + 1}">
+  const inactive = PEOPLE.filter((name) => !scores.some((score) => score.name === name));
+  const max = Math.max(scores[0]?.steps || 0, 1);
+  const hasLazyRank = scores.length >= 3;
+  document.querySelector("#ranking-list").innerHTML = scores.length ? scores.map(({ name, steps, entries }, index) =>
+    `<div class="ranking-row rank-${index + 1} ${hasLazyRank && index === scores.length - 1 ? "last-rank" : ""}">
       <span class="rank-number ${index < 3 ? "top" : ""}">0${index + 1}</span>
       <span class="rank-person"><span class="mini-avatar">${initials(name)}</span>${name}${name === activePerson ? " · tú" : ""}</span>
       <span class="rank-bar"><span style="width:${Math.round((steps / max) * 100)}%"></span></span>
-      <span class="rank-steps">${formatSteps(steps)} <small>pasos · ${formatDistance(steps)} km aprox.</small></span>
-      ${index === scores.length - 1 ? '<span class="lazy-badge">Más vago</span>' : ""}
-    </div>`).join("");
+      <span class="rank-steps">${formatSteps(steps)} <small>pasos · ${formatDistance(steps)} km aprox. · ${entries} ${entries === 1 ? "entrada" : "entradas"}</small></span>
+      ${hasLazyRank && index === scores.length - 1 ? '<span class="lazy-badge">Más vago</span>' : ""}
+    </div>`).join("") : '<p class="empty-history">Todavía no hay actividad en este periodo.</p>';
+  document.querySelector("#inactive-list").innerHTML = inactive.map((name) =>
+    `<div class="inactive-person"><span class="mini-avatar">${initials(name)}</span><span>${name}</span><small>Sin actividad</small></div>`).join("");
+  document.querySelector("#inactive-section").classList.toggle("hidden", inactive.length === 0);
 }
 
 function renderDashboard() {
@@ -120,10 +130,28 @@ function renderHistory() {
         day: "numeric", month: "short", year: "numeric"
       }).format(new Date(`${entry.date}T12:00:00`))}</span>
       <span class="history-steps">${formatSteps(entry.steps)} <small>pasos · ${formatDistance(entry.steps)} km aprox.</small></span>
-      <button class="edit-entry" type="button" data-entry-id="${entry.id}" aria-label="Editar entrada del ${entry.date}">↗</button>
+      <span class="history-actions">
+        <button class="edit-entry" type="button" data-entry-id="${entry.id}" aria-label="Editar entrada del ${entry.date}">↗</button>
+        <button class="delete-entry" type="button" data-entry-id="${entry.id}" aria-label="Borrar entrada del ${entry.date}">×</button>
+      </span>
     </div>`).join("");
   historyList.querySelectorAll(".edit-entry").forEach((button) =>
     button.addEventListener("click", () => openModal(button.dataset.entryId)));
+  historyList.querySelectorAll(".delete-entry").forEach((button) =>
+    button.addEventListener("click", () => deleteEntry(button.dataset.entryId)));
+}
+
+async function deleteEntry(entryId) {
+  const entry = stepsData.find((item) => item.id === entryId);
+  if (!entry || !window.confirm(`¿Borrar la entrada del ${entry.date}?`)) return;
+  try {
+    await deleteDoc(doc(db, "steps", entryId));
+    showMessage("Entrada borrada correctamente.");
+  } catch (error) {
+    console.error("No se pudo borrar el paso de Firestore.", error);
+    showMessage(error.code === "permission-denied" ? permissionMessage() :
+      "No se ha podido borrar la entrada. Inténtalo de nuevo.", true);
+  }
 }
 
 function subscribeToSteps() {
