@@ -114,7 +114,7 @@ mantiene el `index.html` original.
 
 ## Funcionalidades actuales
 
-- Perfil inicial entre Jorge, Gema, José, Rosalia, Manuel Andrés, Jose Antonio y Pablo.
+- Perfil inicial entre Jorge, Gema, José, Rosalía, Manuel Andrés, José Antonio, Pablo y Lucía.
 - Registro de pasos por persona y fecha.
 - Una única entrada diaria por persona, con edición desde el historial.
 - Borrado de entradas desde el historial, con confirmación.
@@ -126,5 +126,20 @@ mantiene el `index.html` original.
 - Indicadores visuales para primer puesto (oro), segundo (plata), tercero (bronce) y último puesto (más vago).
 - Sincronización en tiempo real entre dispositivos.
 - Modo claro/oscuro.
+- Preferencia de tema y perfil guardada en `localStorage` por navegador y dispositivo.
 - Diseño mobile-first.
 - Botón volver arriba.
+
+## Preferencias locales
+
+La aplicación guarda estas preferencias en el navegador:
+
+```text
+paso-a-paso-profile  -> perfil seleccionado
+paso-a-paso-theme    -> "dark" o "light"
+```
+
+Por eso, cuando una persona vuelve a abrir la app en el mismo navegador y
+dispositivo, conserva su perfil y el tema elegido. Estas preferencias no se
+comparten entre móviles ni se almacenan en Firebase; los pasos sí son datos
+compartidos en Firestore.

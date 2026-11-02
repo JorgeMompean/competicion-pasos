@@ -22,6 +22,13 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+  <div class="app-loader" id="app-loader" role="status" aria-live="polite">
+    <div class="loader-mark" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <strong>Paso<span>a</span>paso</strong>
+    <p>Preparando tu ranking</p>
+  </div>
   <div class="app-shell">
     <header class="topbar">
       <a class="brand" href="#" aria-label="Paso a paso, inicio">
@@ -53,19 +60,24 @@
         <div class="dashboard-heading">
           <div>
             <span class="eyebrow"><span class="eyebrow-dot"></span> Tu resumen</span>
-            <h1>Hola, <span id="current-person">Jorge</span></h1>
+            <h1><span>Hola, <span id="current-person">Jorge</span></span><button class="add-icon-button heading-add-button" id="open-add-modal-top" type="button" aria-label="Añadir pasos" title="Añadir pasos">+</button></h1>
           </div>
         </div>
 
         <section class="hero-card">
           <div class="hero-card-content">
-            <span class="card-label">Tus pasos de hoy</span>
+            <span class="card-label" id="personal-label">Tus pasos de hoy</span>
             <strong id="personal-today">0</strong>
             <span class="distance-secondary" id="personal-distance">0 km aprox.</span>
           </div>
         </section>
 
         <section class="section-block">
+          <div class="dashboard-tabs" role="tablist" aria-label="Vista de actividad">
+            <button class="dashboard-tab active" data-view="ranking" role="tab" type="button">Ranking</button>
+            <button class="dashboard-tab" data-view="chart" role="tab" type="button">Gráfico</button>
+          </div>
+          <div id="ranking-panel">
           <div class="section-heading">
             <div><span class="eyebrow"><span class="eyebrow-dot"></span> Clasificación</span><h2>¿Quién lidera?</h2></div>
             <div class="period-tabs" role="tablist" aria-label="Periodo del ranking">
@@ -79,30 +91,49 @@
             <div class="inactive-heading"><span class="eyebrow"><span class="eyebrow-dot"></span> Sin actividad</span></div>
             <div class="inactive-list" id="inactive-list"></div>
           </section>
+          </div>
+          <section class="chart-panel hidden" id="chart-panel">
+            <div class="section-heading">
+              <div><span class="eyebrow"><span class="eyebrow-dot"></span> Comparativa</span><h2>Actividad del equipo</h2></div>
+              <div class="chart-controls">
+                <div class="custom-select" data-select="chart-period"><span>Periodo</span><button class="custom-select-button" type="button" aria-haspopup="listbox" aria-expanded="false">Semana</button><div class="custom-select-menu" role="listbox"><button type="button" role="option" data-value="week" aria-selected="true">Semana</button><button type="button" role="option" data-value="day">Hoy</button><button type="button" role="option" data-value="all">Histórico</button></div></div>
+                <div class="custom-select" data-select="chart-metric"><span>Mostrar</span><button class="custom-select-button" type="button" aria-haspopup="listbox" aria-expanded="false">Pasos</button><div class="custom-select-menu" role="listbox"><button type="button" role="option" data-value="steps" aria-selected="true">Pasos</button><button type="button" role="option" data-value="entries">Entradas</button></div></div>
+              </div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-scale"><span>Máximo</span><span>0</span></div>
+              <div class="chart-bars" id="chart-bars"></div>
+            </div>
+          </section>
         </section>
 
         <section class="section-block add-steps-section">
           <div class="section-heading compact">
             <div><span class="eyebrow"><span class="eyebrow-dot"></span> Registrar actividad</span><h2>Mis entradas</h2></div>
-            <button class="primary-button add-data-button" id="open-add-modal" type="button"><span>Añadir datos</span><span aria-hidden="true">+</span></button>
+            <div class="history-heading-actions">
+              <div class="custom-select history-sort" data-select="history-sort"><span>Ordenar</span><button class="custom-select-button" type="button" aria-haspopup="listbox" aria-expanded="false">Fecha</button><div class="custom-select-menu" role="listbox"><button type="button" role="option" data-value="date" aria-selected="true">Fecha</button><button type="button" role="option" data-value="entries">Entradas</button><button type="button" role="option" data-value="steps">Pasos</button></div></div>
+            </div>
           </div>
           <div class="history-list" id="history-list"></div>
           <p class="empty-history hidden" id="empty-history">Todavía no has registrado pasos.</p>
         </section>
       </section>
     </main>
-    <footer><span>Hecho para moverse</span><span class="footer-line"></span><span id="footer-year"></span></footer>
+    <footer>
+      <span>Hecho para moverse</span>
+      <span class="footer-line"></span>
+      <span>&copy; <span id="footer-year"></span> Jorge Mompeán Cabezas</span>
+    </footer>
   </div>
   <div class="modal-backdrop hidden" id="steps-modal" role="presentation">
     <section class="steps-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
         <div><span class="eyebrow"><span class="eyebrow-dot"></span> Registro diario</span><h2 id="modal-title">Añadir datos</h2></div>
-        <button class="modal-close" id="close-modal" type="button" aria-label="Cerrar">×</button>
+        <button class="modal-close" id="close-modal" type="button" aria-label="Cerrar"><span aria-hidden="true">×</span></button>
       </div>
       <form class="steps-form modal-form" id="steps-form">
-        <label>Persona<select id="person-select"></select></label>
         <label>Fecha<input id="steps-date" type="date" required></label>
-        <label class="steps-input">Pasos<input id="steps-input" type="number" min="0" max="200000" placeholder="0" required></label>
+        <label class="steps-input">Pasos<input id="steps-input" type="number" inputmode="numeric" min="0" max="200000" placeholder="0" required></label>
         <button class="primary-button" id="modal-submit" type="submit"><span>Guardar pasos</span><span aria-hidden="true">+</span></button>
       </form>
       <p class="form-message" id="form-message" role="status"></p>
