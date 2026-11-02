@@ -26,11 +26,12 @@
     <header class="topbar">
       <a class="brand" href="#" aria-label="Paso a paso, inicio">
         <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none"><path d="M12.4 4.7c2.4-.7 5 .8 5.7 3.2l2.2 7.7c.5 1.8-.5 3.6-2.2 4.1-1.6.5-3.4-.4-4-2l-1.2-3.5-3.1 1.1c-2 .7-4.1-.4-4.8-2.4-.7-2 .4-4.1 2.4-4.8l5-1.8Z" fill="#6EE7B7"/><path d="m18.7 19.8 4.2-2.1a3.7 3.7 0 0 1 4.9 1.6l.3.6a3.7 3.7 0 0 1-1.6 4.9l-7.3 3.7a4.5 4.5 0 0 1-6-2l-1.1-2.3" fill="#38BDF8"/></svg>
+          <svg viewBox="0 0 36 36" fill="none"><path d="M8 25.5 14.5 19l4.2 4.2L28 14" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="m25 14h3v3" stroke="#6EE7B7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="25.5" r="3" fill="#6EE7B7"/></svg>
         </span>
         <span>Paso<span class="brand-accent">a</span>paso</span>
       </a>
       <div class="topbar-actions">
+        <button class="change-person header-person-button hidden" id="change-person" type="button" aria-label="Cambiar perfil" title="Cambiar perfil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 18c.7-3 2.5-4.5 5.5-4.5 1.4 0 2.6.4 3.5 1.2"/><path d="M16 12v7m0 0 3-3m-3 3-3-3"/></svg></button>
         <button class="icon-button" id="theme-toggle" type="button" aria-label="Cambiar tema">
           <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
           <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z"/></svg>
@@ -54,18 +55,13 @@
             <span class="eyebrow"><span class="eyebrow-dot"></span> Tu resumen</span>
             <h1>Hola, <span id="current-person">Jorge</span></h1>
           </div>
-          <button class="change-person" id="change-person" type="button">Cambiar perfil <span>→</span></button>
         </div>
 
         <section class="hero-card">
           <div class="hero-card-content">
             <span class="card-label">Tus pasos de hoy</span>
             <strong id="personal-today">0</strong>
-            <span class="goal-copy"><span id="goal-progress">0%</span> de tu objetivo diario</span>
-            <div class="progress-track"><span id="personal-progress"></span></div>
-          </div>
-          <div class="hero-card-art" aria-hidden="true">
-            <svg viewBox="0 0 130 130" fill="none"><circle cx="65" cy="65" r="53" stroke="rgba(255,255,255,.18)" stroke-width="1"/><circle cx="65" cy="65" r="40" stroke="rgba(255,255,255,.18)" stroke-width="1"/><path d="M48 36c9-3 18 2 21 11l7 23c2 6-2 12-8 14l-2 .6c-5 1.5-10-1.4-11.5-6.4l-3.2-11-7.7 2.2c-7 2-14-2-16-9s2-14 9-16l12-3.4Z" fill="#6EE7B7"/><path d="m66 84 17-8a11 11 0 0 1 14 5l.8 1.7a11 11 0 0 1-5 14l-20 9.8a13 13 0 0 1-17-5.8l-3-6.2" fill="#38BDF8"/></svg>
+            <span class="distance-secondary" id="personal-distance">0 km aprox.</span>
           </div>
         </section>
 
@@ -82,20 +78,33 @@
         </section>
 
         <section class="section-block add-steps-section">
-          <div class="section-heading compact"><div><span class="eyebrow"><span class="eyebrow-dot"></span> Registrar actividad</span><h2>Suma tus pasos</h2></div></div>
-          <form class="steps-form" id="steps-form">
-            <label>Persona<select id="person-select"></select></label>
-            <label>Fecha<input id="steps-date" type="date" required></label>
-            <label class="steps-input">Pasos<input id="steps-input" type="number" min="0" max="200000" placeholder="0" required></label>
-            <button class="primary-button" type="submit"><span>Guardar pasos</span><span aria-hidden="true">+</span></button>
-          </form>
-          <p class="form-message" id="form-message" role="status"></p>
+          <div class="section-heading compact">
+            <div><span class="eyebrow"><span class="eyebrow-dot"></span> Registrar actividad</span><h2>Mis entradas</h2></div>
+            <button class="primary-button add-data-button" id="open-add-modal" type="button"><span>Añadir datos</span><span aria-hidden="true">+</span></button>
+          </div>
+          <div class="history-list" id="history-list"></div>
+          <p class="empty-history hidden" id="empty-history">Todavía no has registrado pasos.</p>
         </section>
       </section>
     </main>
     <footer><span>Hecho para moverse</span><span class="footer-line"></span><span id="footer-year"></span></footer>
   </div>
-  <button class="back-to-top" id="back-to-top" type="button" aria-label="Volver arriba">↑</button>
+  <div class="modal-backdrop hidden" id="steps-modal" role="presentation">
+    <section class="steps-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div><span class="eyebrow"><span class="eyebrow-dot"></span> Registro diario</span><h2 id="modal-title">Añadir datos</h2></div>
+        <button class="modal-close" id="close-modal" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <form class="steps-form modal-form" id="steps-form">
+        <label>Persona<select id="person-select"></select></label>
+        <label>Fecha<input id="steps-date" type="date" required></label>
+        <label class="steps-input">Pasos<input id="steps-input" type="number" min="0" max="200000" placeholder="0" required></label>
+        <button class="primary-button" id="modal-submit" type="submit"><span>Guardar pasos</span><span aria-hidden="true">+</span></button>
+      </form>
+      <p class="form-message" id="form-message" role="status"></p>
+    </section>
+  </div>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Volver arriba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 15 7-7 7 7"/></svg></button>
   <script type="module" src="../js/main.js"></script>
 </body>
 </html>

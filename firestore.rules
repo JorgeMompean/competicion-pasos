@@ -5,6 +5,7 @@ service cloud.firestore {
     match /steps/{stepId} {
       allow read: if true;
       allow create, update: if
+        stepId == request.resource.data.person + "-" + request.resource.data.date &&
         request.resource.data.keys().hasOnly(["person", "date", "steps", "updatedAt"]) &&
         request.resource.data.person in [
           "Jorge", "Gema", "José", "Rosalia",

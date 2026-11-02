@@ -116,7 +116,11 @@ mantiene el `index.html` original.
 
 - Perfil inicial entre Jorge, Gema, José, Rosalia, Manuel Andrés, Jose Antonio y Pablo.
 - Registro de pasos por persona y fecha.
+- Una única entrada diaria por persona, con edición desde el historial.
+- Modal reutilizable para añadir y corregir datos.
 - Ranking diario, semanal e histórico.
+- Distancia aproximada en kilómetros (750 metros por cada 1.000 pasos).
+- Indicadores visuales para primer puesto (oro), segundo (plata), tercero (bronce) y último puesto (más vago).
 - Sincronización en tiempo real entre dispositivos.
 - Modo claro/oscuro.
 - Diseño mobile-first.
