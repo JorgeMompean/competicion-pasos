@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /steps/{stepId} {
+      allow read: if true;
+      allow create, update: if
+        request.resource.data.keys().hasOnly(["person", "date", "steps", "updatedAt"]) &&
+        request.resource.data.person in [
+          "Jorge", "Gema", "José", "Rosalia",
+          "Manuel Andrés", "Jose Antonio", "Pablo"
+        ] &&
+        request.resource.data.date is string &&
+        request.resource.data.date.matches("^[0-9]{4}-[0-9]{2}-[0-9]{2}$") &&
+        request.resource.data.steps is int &&
+        request.resource.data.steps >= 0 &&
+        request.resource.data.steps <= 200000;
+      allow delete: if false;
+    }
+  }
+}
