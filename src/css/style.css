@@ -1,10 +1,10 @@
 :root {
-  --bg: #f5f7fb; --surface: #fff; --surface-soft: #eef2f8; --text: #111827; --muted: #718096;
-  --line: #e4e9f1; --navy: #111827; --cyan: #38bdf8; --mint: #6ee7b7; --shadow: 0 16px 40px rgba(17, 24, 39, .08);
-}
-[data-theme="dark"] {
   --bg: #0c111d; --surface: #151d2d; --surface-soft: #1d2738; --text: #f5f7fb; --muted: #9aa8bd;
-  --line: #29364a; --navy: #f5f7fb; --shadow: 0 16px 40px rgba(0, 0, 0, .24);
+  --line: #29364a; --navy: #f5f7fb; --cyan: #38bdf8; --mint: #6ee7b7; --shadow: 0 16px 40px rgba(0, 0, 0, .24);
+}
+[data-theme="light"] {
+  --bg: #f5f7fb; --surface: #fff; --surface-soft: #eef2f8; --text: #111827; --muted: #718096;
+  --line: #e4e9f1; --navy: #111827; --shadow: 0 16px 40px rgba(17, 24, 39, .08);
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }

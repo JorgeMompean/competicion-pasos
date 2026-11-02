@@ -163,7 +163,7 @@ topButton.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "s
 
 document.querySelector("#steps-date").value = todayKey;
 document.querySelector("#footer-year").textContent = new Date().getFullYear();
-document.documentElement.dataset.theme = localStorage.getItem(THEME_KEY) || "light";
+document.documentElement.dataset.theme = localStorage.getItem(THEME_KEY) || "dark";
 renderPeople();
 renderPersonSelect();
 subscribeToSteps();

@@ -16,32 +16,33 @@ Aplicación web responsive para registrar los pasos diarios de un grupo y consul
 ├── .github/
 ├── .gitignore
 ├── index.html
+├── site.webmanifest
 ├── dist/
 │   ├── assets/
+│   │   └── favicon.svg
 │   ├── css/style.css
 │   ├── js/
+│   ├── site.webmanifest
 │   └── .nojekyll
 ├── firestore.rules
 ├── README.md
 ├── scripts/build.py
 └── src/
     ├── assets/
+    │   └── favicon.svg
     ├── css/style.css
     ├── images/
     ├── js/
-    │   ├── asistencia.js
-    │   ├── config.js
-    │   ├── dashboard.js
     │   ├── firebase-config.js
     │   └── main.js
     └── pages/
         └── home.html
 ```
 
-Los archivos que ya existían (`index.html`, `style.css`, `script.js`, `src/app.js`,
-`src/style.css` y `src/firebase-config.js`) se mantienen para no romper las
-rutas de trabajo local. La estructura organizada de desarrollo vive en `src/` y
-la salida publicable en `dist/`.
+`src/` contiene la fuente de desarrollo, `index.html` es la entrada que necesita
+GitHub Pages cuando se publica desde la raíz y `dist/` es la salida generada
+alternativa. No hay copias manuales de CSS, JavaScript o configuración Firebase:
+la fuente única está en `src/`.
 
 ## Modelo de datos
 
@@ -59,7 +60,7 @@ Si se vuelve a guardar la misma persona y fecha, se actualiza ese registro en ve
 
 ## Configuración de Firebase
 
-La configuración pública del proyecto está en [`src/firebase-config.js`](./src/firebase-config.js) y en [`src/js/firebase-config.js`](./src/js/firebase-config.js). Las claves de configuración web de Firebase no son secretos; la protección real debe hacerse con Authentication y reglas de Firestore.
+La configuración pública del proyecto está en [`src/js/firebase-config.js`](./src/js/firebase-config.js). Las claves de configuración web de Firebase no son secretos; la protección real debe hacerse con Authentication y reglas de Firestore.
 
 1. En Firebase Console, abre el proyecto `competicion-pasos`.
 2. Activa **Firestore Database** en modo producción.

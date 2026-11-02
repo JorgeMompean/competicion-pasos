@@ -1,0 +1,17 @@
+{
+  "name": "Paso a paso · Ranking",
+  "short_name": "Paso a paso",
+  "description": "Ranking amistoso de pasos diarios.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c111d",
+  "theme_color": "#0c111d",
+  "icons": [
+    {
+      "src": "src/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
